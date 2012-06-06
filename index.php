@@ -9,7 +9,7 @@
 <?php
 	$api = new SteamAPI();
 
-	$user = $api->getUser("Insomnica");
+	$user = $api->getUser($_GET["id"]);
 	print_r($user); //DEBUG
 ?>
 
