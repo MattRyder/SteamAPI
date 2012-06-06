@@ -27,14 +27,16 @@ class SteamUser {
 		}
 
 		try {
-			$parsedData = new SimpleXMLElement(file_get_contents($base));
+			$content = file_get_contents($base);
+			if(!empty($content)) {
+				$parsedData = new SimpleXMLElement($content);
+			}
 		} catch (Exception $e) {
 			echo "Whoops! Something went wrong!\n\nException Info:\n" . $e . "\n\n";
 			return;
 		}	
 
 		if(!empty($parsedData)) {
-
 			$this->steamID64 = (string)$parsedData->steamID64;
 			$this->steamID = (string)$parsedData->steamID;
 			$this->stateMessage = (string)$parsedData->stateMessage;
