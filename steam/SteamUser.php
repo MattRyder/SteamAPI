@@ -157,5 +157,19 @@ class SteamUser {
 			return $this->friendList;
 		}
 	}
+
+	function convertToCommunityID() {
+
+		if(!empty($this->steamID64)) {
+			$Y = $this->steamID64 % 2; //Parity bit at end of 64-bit ID
+			$Z = ($this->steamID64 & 0xFFFFFFFF) >> 1; //Get the Account ID
+
+			$test = ($this->steamID64 & 0xFFFFFFFF);
+			echo PHP_INT_MAX;
+
+			return "STEAM_0:{$Y}:{$Z}";
+		}
+
+	}
 }
 ?>
