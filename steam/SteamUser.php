@@ -161,11 +161,10 @@ class SteamUser {
 	function convertToCommunityID() {
 
 		if(!empty($this->steamID64)) {
-			$Y = $this->steamID64 % 2; //Parity bit at end of 64-bit ID
-			$Z = ($this->steamID64 & 0xFFFFFFFF) >> 1; //Get the Account ID
 
-			$test = ($this->steamID64 & 0xFFFFFFFF);
-			echo PHP_INT_MAX;
+			$Y = $this->steamID64 % 2; //Parity bit at end of 64-bit ID
+			$Z = gmp_and($this->steamID64, "0xFFFFFFFF"); //Get the Account ID
+			$Z = gmp_strval(gmp_div($Z, 2));
 
 			return "STEAM_0:{$Y}:{$Z}";
 		}
