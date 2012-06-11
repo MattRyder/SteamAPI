@@ -11,7 +11,14 @@ require_once("steam/SteamAPI.php");
 <?php
 	$api = new SteamAPI();
 
-	$user = $api->getUser($_GET["id"]);
+	if(substr(php_sapi_name(), 0, 3) == "cli")
+		$userID = $argv[1]; //Pull ID from CLI args
+	else if(substr(php_sapi_name(), 0, 3) == "cli")
+		$userID = $_GET["id"]; // Pull it from the CGI (or CGI-FCGI) args
+	else
+		$userID = NULL; //Some other PHP SAPI
+
+	$user = $api->getUser($userID);
 
 	if($user != NULL) {
 		$fl = $user->getFriendsList();
