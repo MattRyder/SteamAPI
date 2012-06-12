@@ -29,4 +29,4 @@ To access user profiles, create the required SteamAPI object, and then create a 
 More Information
 ----------------
 * Looking for [API Documentation](/MattRyder/steamAPI/wiki/API-Documentation)?
-* Some [examples of usage](/MattRyder/steamAPI/wiki/Examples-of-use)?
+* Some [examples of usage](/MattRyder/steamAPI/wiki/Examples)?
