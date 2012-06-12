@@ -20,7 +20,13 @@ To access user profiles, create the required SteamAPI object, and then create a 
 
     $api = new SteamAPI();
 
-    $user = $api->getUser($vanityURL);
+    $user = $api->getUser($id);
     print_r($user); //Or whatever you want to do with it! :)
 
     ?>
+
+
+More Information
+----------------
+* Looking for [API Documentation](/MattRyder/steamAPI/wiki/API-Documentation)?
+* Some [examples of usage](/MattRyder/steamAPI/wiki/Examples-of-use)?
