@@ -1,11 +1,12 @@
 <?php
+
 class SteamUser {
 	
 	private $userID;
 	private $vanityURL;
 	
 	function __construct($id) {
-		
+
 		if(is_numeric($id)) {
 			$this->userID = $id;
 		} 
@@ -15,7 +16,7 @@ class SteamUser {
 
 		$this->getProfileData();
 	}
-	
+
 	function getProfileData() {
 
 		//Set Base URL for the query:
@@ -136,7 +137,7 @@ class SteamUser {
 	}
 
 	function getFriendsList() {
-		include_once("private/apikey.php");
+		global $apikey;
 
 		if(!empty($this->steamID64)) {
 			//Setup URL to the steam API for the list:
@@ -156,6 +157,37 @@ class SteamUser {
 
 			return $this->friendList;
 		}
+	}
+
+	function getGamesList() {
+
+		//Set Base URL for the query:
+		if(empty($this->vanityURL)) {
+			$base = "http://steamcommunity.com/profiles/{$this->userID}/games?xml=1";
+		} else {
+			$base = "http://steamcommunity.com/id/{$this->vanityURL}/games?xml=1";
+		}
+		
+		$gamesData = new SimpleXMLElement(file_get_contents($base));
+
+		if(!empty($gamesData)) {
+			$this->gamesList = array();
+
+			$i = 0;
+			foreach ($gamesData->games->game as $game) {
+				$this->gamesList[$i]->appID = (string)$game->appID;
+				$this->gamesList[$i]->name = (string)$game->name;
+				$this->gamesList[$i]->logo = (string)$game->logo;
+				$this->gamesList[$i]->storeLink = (string)$game->storeLink;
+				$this->gamesList[$i]->hoursOnRecord = (float)$game->hoursOnRecord;
+				$this->gamesList[$i]->statsLink = (string)$game->statsLink;
+				$this->gamesList[$i]->globalStatsLink = (string)$game->globalStatsLink;
+				$i++;
+			}
+
+			return $this->gamesList;
+		}
+
 	}
 
 	function convertToCommunityID() {
