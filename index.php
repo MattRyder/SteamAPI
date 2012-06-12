@@ -22,6 +22,10 @@ require_once("steam/SteamAPI.php");
     $api = new SteamAPI();
 	$user = $api->getUser($userID);
 
+	$foo = $user->getFriendsList();
+	print_r($foo);
+
+/*
 	if($user != NULL) {
 
 		$foo = $user->getGamesList();
@@ -31,8 +35,7 @@ require_once("steam/SteamAPI.php");
 		for($i = 0; $i < count($foo); $i++) {
 			printf("%-7s\t%-50s\t%-2.1f%s", $foo[$i]->appID, $foo[$i]->name, $foo[$i]->hoursOnRecord, PHP_EOL);
 		}
-    }
-
+    }*/
 ?>
 
 

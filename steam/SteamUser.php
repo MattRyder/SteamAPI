@@ -1,5 +1,4 @@
 <?php
-
 class SteamUser {
 	
 	private $userID;
@@ -137,7 +136,9 @@ class SteamUser {
 	}
 
 	function getFriendsList() {
-		global $apikey;
+		ob_start();
+		include("private/apikey.inc.php");
+		ob_end_clean();
 
 		if(!empty($this->steamID64)) {
 			//Setup URL to the steam API for the list:
@@ -167,7 +168,7 @@ class SteamUser {
 		} else {
 			$base = "http://steamcommunity.com/id/{$this->vanityURL}/games?xml=1";
 		}
-		
+
 		$gamesData = new SimpleXMLElement(file_get_contents($base));
 
 		if(!empty($gamesData)) {
@@ -187,7 +188,6 @@ class SteamUser {
 
 			return $this->gamesList;
 		}
-
 	}
 
 	function convertToCommunityID() {
@@ -200,7 +200,6 @@ class SteamUser {
 
 			return "STEAM_0:{$Y}:{$Z}";
 		}
-
 	}
 }
 ?>
