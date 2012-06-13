@@ -16,11 +16,9 @@ To access user profiles, create the required SteamAPI object, and then create a 
 
     <?php 
 
-    require("steam/SteamAPI.php");
+    require("steam/SteamUser.php");
 
-    $api = new SteamAPI();
-
-    $user = $api->getUser($id);
+    $user = new SteamUser($id);
     print_r($user); //Or whatever you want to do with it! :)
 
     ?>

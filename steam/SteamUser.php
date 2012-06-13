@@ -1,4 +1,14 @@
 <?php
+/**
+* SteamUser - Representation of any Steam user profile
+*
+* @category   SteamAPI
+* @copyright  Copyright (c) 2012 Matt Ryder (www.mattryder.co.uk)
+* @license    GPLv2 License
+* @version    v1.0
+* @link       https://github.com/MattRyder/SteamAPI/blob/master/steam/SteamUser.php
+* @since      Class available since v1.0
+*/
 class SteamUser {
 	
 	private $userID;
@@ -20,6 +30,10 @@ class SteamUser {
 		$this->getProfileData();
 	}
 
+	/**
+	 * GetProfileData
+	 * - Accesses Steam Profile XML and parses the data
+	 */
 	function getProfileData() {
 
 		//Set Base URL for the query:
@@ -139,6 +153,12 @@ class SteamUser {
 		}
 	}
 
+	/**
+	 * GetFriendsList 
+	 * - Accesses Steam API's GetFriendsList and parses returned XML
+	 * - Gets each friends' SteamID64, relationship, and UNIX timestamp since being a friend
+	 * @return Zero-based array of friends.
+	 */
 	function getFriendsList() {
 		ob_start();
 		include("private/apikey.inc.php");
@@ -164,6 +184,12 @@ class SteamUser {
 		}
 	}
 
+	/**
+	 * GetGamesList
+	 * - Accesses Steam Profile Games XML and parses returned XML
+	 * - Gets each Game based on AppID, Game Name, Logo, Store Link, Hours on Record, (global & personal) Stats Links
+	 * @return Zero-based array of games.
+	 */
 	function getGamesList() {
 
 		//Set Base URL for the query:
@@ -189,11 +215,15 @@ class SteamUser {
 				$this->gamesList[$i]->globalStatsLink = (string)$game->globalStatsLink;
 				$i++;
 			}
-
 			return $this->gamesList;
 		}
 	}
 
+	/**
+	 * ConvertToCommunityID
+	 * - Converts a 17-digit Community ID (e.g. 76561197960435530) into a SteamID (e.g. STEAM_0:1:3144145)
+	 * @return SteamID as a string
+	 */
 	function convertToCommunityID() {
 
 		if(!empty($this->steamID64)) {
