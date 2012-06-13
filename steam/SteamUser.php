@@ -160,14 +160,15 @@ class SteamUser {
 	 * @return Zero-based array of friends.
 	 */
 	function getFriendsList() {
+
 		ob_start();
 		include("private/apikey.inc.php");
 		ob_end_clean();
 
 		if(!empty($this->steamID64)) {
 			//Setup URL to the steam API for the list:
-			$baseURL = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/";
-			$baseURL = $baseURL . "?key={$apikey}&steamid={$this->steamID64}&relationship=friend&format=xml";
+			$baseURL = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/"
+			         . "?key={$apikey}&steamid={$this->steamID64}&relationship=friend&format=xml";
 
 			$parsedFL = new SimpleXMLElement(file_get_contents($baseURL));
 			$this->friendList = array();

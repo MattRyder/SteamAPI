@@ -18,13 +18,15 @@ class SteamGame {
 	* @param $appID: Game Application ID
 	*/
 	function __construct($appID) {
+		
 		$this->appID = $appID;
 	}
 
 	/**
 	* GetNewsItems - Gets the latest news posts about the SteamGame
 	* @param $newsItemCount: How many news enties you want to get returned.
-	* @param $maxLength: Maximum length of each news article	 
+	* @param $maxLength: Maximum length of each news article	
+	* @return $gameNews: Array containing news entries. 
 	*/
 	function getNewsItems($newsItemCount = 3, $maxLength = 300) {
 
@@ -43,15 +45,15 @@ class SteamGame {
 			$i = 0;
 			$this->gameNews = array();
 			foreach ($newsData->newsitems->newsitem as $item) {
-				$this->gameNews[$i]->gid 			 = (string) $item->gid;
-				$this->gameNews[$i]->title 			 = (string) $item->title;
-				$this->gameNews[$i]->url 			 = (string) $item->url;
+				$this->gameNews[$i]->gid             = (string) $item->gid;
+				$this->gameNews[$i]->title           = (string) $item->title;
+				$this->gameNews[$i]->url             = (string) $item->url;
 				$this->gameNews[$i]->is_external_url = (string) $item->is_external_url;
-				$this->gameNews[$i]->author 		 = (string) $item->author;
-				$this->gameNews[$i]->contents 		 = (string) $item->contents;
-				$this->gameNews[$i]->feedlabel		 = (string) $item->feedlabel;
-				$this->gameNews[$i]->date 			 = (string) $item->date;
-				$this->gameNews[$i]->feedname 		 = (string) $item->feedname;
+				$this->gameNews[$i]->author          = (string) $item->author;
+				$this->gameNews[$i]->contents        = (string) $item->contents;
+				$this->gameNews[$i]->feedlabel       = (string) $item->feedlabel;
+				$this->gameNews[$i]->date            = (string) $item->date;
+				$this->gameNews[$i]->feedname        = (string) $item->feedname;
 				$i++;
 			}
 
