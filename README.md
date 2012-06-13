@@ -12,7 +12,7 @@ Overview
 
 It's simple to integrate SteamAPI into your web application!
 
-To access user profiles, create the required SteamAPI object, and then create a SteamUser object for the target user:
+To access user profiles, create a SteamUser object for the target user:
 
     <?php 
 
