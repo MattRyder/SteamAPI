@@ -6,6 +6,10 @@ class SteamUser {
 	
 	function __construct($id) {
 
+		if(empty($id)) {
+			echo "Error: No Steam ID or URL given!", PHP_EOL;
+			return NULL;
+		}
 		if(is_numeric($id)) {
 			$this->userID = $id;
 		} 
