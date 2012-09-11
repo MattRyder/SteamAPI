@@ -5,28 +5,33 @@
 * @category   SteamAPI
 * @copyright  Copyright (c) 2012 Matt Ryder (www.mattryder.co.uk)
 * @license    GPLv2 License
-* @version    v1.0
+* @version    v1.1
 * @link       https://github.com/MattRyder/SteamAPI/blob/master/steam/SteamGame.php
 * @since      Class available since v1.0
 */
 class SteamGame {
 
 	private $appID;
+	private $apiKey;
 
 	/**
 	* Constructor
-	* @param $appID: Game Application ID
+	* @param int    $appID    Game Application ID
+	* @param string $apiKey   API key for http://steamcommunity.com/dev/
 	*/
-	function __construct($appID) {
-		
+	function __construct($appID, $apiKey = null) {
+
 		$this->appID = $appID;
+		if (!is_null($apiKey)) {
+			$this->apiKey = $apiKey;
+		}
 	}
 
 	/**
 	* GetNewsItems - Gets the latest news posts about the SteamGame
 	* @param $newsItemCount: How many news enties you want to get returned.
-	* @param $maxLength: Maximum length of each news article	
-	* @return $gameNews: Array containing news entries. 
+	* @param $maxLength: Maximum length of each news article
+	* @return $gameNews: Array containing news entries.
 	*/
 	function getNewsItems($newsItemCount = 3, $maxLength = 300) {
 
@@ -58,7 +63,46 @@ class SteamGame {
 			}
 
 			return $this->gameNews;
+		} else {
+			return null;
 		}
+	}
+
+	/**
+	 * GetSchemaForGame - Loads schema for a selected game
+	 * @param  string $lang Language for descriptions
+	 * @return array        Schema as an associative array cointaining ['achievements'] and ['stats']
+	 */
+	function getSchema($lang = 'en') {
+		if(!empty($this->appID)) {
+			$base = "http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v0002/?key={$this->apiKey}&appid={$this->appID}&l={$lang}";
+		}
+
+		$json = file_get_contents($base);
+		if(!$json) {
+			return null;
+		}
+
+		$gameSchema = json_decode($json, true);
+
+		if (!$gameSchema) {
+			return null;
+		}
+
+		$this->gameSchema = array(
+			'achievements' => $gameSchema['game']['availableGameStats']['achievements'],
+			'stats'        => $gameSchema['game']['availableGameStats']['stats']
+		);
+
+		return $this->gameSchema;
+	}
+
+	/**
+	 * Sets an API key for api.steampowered.com
+	 * @param string $apiKey API key
+	 */
+	function setApiKey($apiKey) {
+		$this->apiKey = $apiKey;
 	}
 }
 
