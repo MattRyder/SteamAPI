@@ -1,4 +1,7 @@
 <?php
+// Disable XML warnings to avoid problems when SteamCommunity is down
+libxml_use_internal_errors(true);
+
 /**
 * SteamUser - Representation of any Steam user profile
 *
@@ -11,6 +14,7 @@
 */
 class SteamUser {
 
+	private $connectTimeout = 2; // 2 seconds
 	private $userID;
 	private $vanityURL;
 	private $apiKey;
@@ -54,9 +58,15 @@ class SteamUser {
 		}
 
 		try {
-			$content = file_get_contents($base);
-			if(!empty($content)) {
+			$ctx = stream_context_create(array(
+				'http' => array(
+					'timeout' => $this->connectTimeout
+			)));
+			$content = file_get_contents($base, false, $ctx);
+			if ($content) {
 				$parsedData = new SimpleXMLElement($content);
+			} else {
+				return null;
 			}
 		} catch (Exception $e) {
 			//echo "Whoops! Something went wrong!\n\nException Info:\n" . $e . "\n\n";
@@ -209,7 +219,16 @@ class SteamUser {
 		}
 
 		try {
-			$gamesData = new SimpleXMLElement(file_get_contents($base));
+			$ctx = stream_context_create(array(
+				'http' => array(
+					'timeout' => $this->connectTimeout
+			)));
+			$content = file_get_contents($base, false, $ctx);
+			if ($content) {
+				$gamesData = new SimpleXMLElement($content);
+			} else {
+				return null;
+			}
 		} catch (Exception $e) {
 			// Usually happens when service is down
 			return null;
@@ -248,7 +267,16 @@ class SteamUser {
 		}
 
 		try {
-			$gameStats = new SimpleXMLElement(file_get_contents($base));
+			$ctx = stream_context_create(array(
+				'http' => array(
+					'timeout' => $this->connectTimeout
+			)));
+			$content = file_get_contents($base, false, $ctx);
+			if ($content) {
+				$gameStats = new SimpleXMLElement($content);
+			} else {
+				return null;
+			}
 		} catch (Exception $e) {
 			// Usually happens when service is down
 			return null;
