@@ -1,6 +1,8 @@
 <?php
 // Disable XML warnings to avoid problems when SteamCommunity is down
 libxml_use_internal_errors(true);
+// Use SteamUtility to fetch URLs and other stuff
+require_once 'SteamUtility.php';
 
 /**
 * SteamUser - Representation of any Steam user profile
@@ -8,13 +10,12 @@ libxml_use_internal_errors(true);
 * @category   SteamAPI
 * @copyright  Copyright (c) 2012 Matt Ryder (www.mattryder.co.uk)
 * @license    GPLv2 License
-* @version    v1.1
+* @version    v1.2
 * @link       https://github.com/MattRyder/SteamAPI/blob/master/steam/SteamUser.php
 * @since      Class available since v1.0
 */
 class SteamUser {
 
-	private $connectTimeout = 2; // 2 seconds
 	private $userID;
 	private $vanityURL;
 	private $apiKey;
@@ -58,11 +59,7 @@ class SteamUser {
 		}
 
 		try {
-			$ctx = stream_context_create(array(
-				'http' => array(
-					'timeout' => $this->connectTimeout
-			)));
-			$content = file_get_contents($base, false, $ctx);
+			$content = SteamUtility::fetchURL($base);
 			if ($content) {
 				$parsedData = new SimpleXMLElement($content);
 			} else {
@@ -188,7 +185,7 @@ class SteamUser {
 			$baseURL = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/"
 			         . "?key={$apikey}&steamid={$this->steamID64}&relationship=friend&format=xml";
 
-			$parsedFL = new SimpleXMLElement(file_get_contents($baseURL));
+			$parsedFL = new SimpleXMLElement(SteamUtility::fetchURL($baseURL));
 			$this->friendList = array();
 
 			$i = 0;
@@ -219,11 +216,7 @@ class SteamUser {
 		}
 
 		try {
-			$ctx = stream_context_create(array(
-				'http' => array(
-					'timeout' => $this->connectTimeout
-			)));
-			$content = file_get_contents($base, false, $ctx);
+			$content = SteamUtility::fetchURL($base);
 			if ($content) {
 				$gamesData = new SimpleXMLElement($content);
 			} else {
@@ -267,11 +260,7 @@ class SteamUser {
 		}
 
 		try {
-			$ctx = stream_context_create(array(
-				'http' => array(
-					'timeout' => $this->connectTimeout
-			)));
-			$content = file_get_contents($base, false, $ctx);
+			$content = SteamUtility::fetchURL($base);
 			if ($content) {
 				$gameStats = new SimpleXMLElement($content);
 			} else {

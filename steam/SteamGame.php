@@ -1,11 +1,14 @@
 <?php
+// Use SteamUtility to fetch URLs and other stuff
+require_once 'SteamUtility.php';
+
 /**
 * SteamGame - Representation of any Steam title on the Store
 *
 * @category   SteamAPI
 * @copyright  Copyright (c) 2012 Matt Ryder (www.mattryder.co.uk)
 * @license    GPLv2 License
-* @version    v1.1
+* @version    v1.2
 * @link       https://github.com/MattRyder/SteamAPI/blob/master/steam/SteamGame.php
 * @since      Class available since v1.0
 */
@@ -45,7 +48,7 @@ class SteamGame {
 			$base = "http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/"
 			      . "?appid={$this->appID}&count={$newsItemCount}&maxlength={$maxLength}&format=xml";
 
-			$newsData = new SimpleXMLElement(file_get_contents($base));
+			$newsData = new SimpleXMLElement(SteamUtility::fetchURL($base));
 
 			$i = 0;
 			$this->gameNews = array();
@@ -78,7 +81,7 @@ class SteamGame {
 			$base = "http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v0002/?key={$this->apiKey}&appid={$this->appID}&l={$lang}";
 		}
 
-		$json = file_get_contents($base);
+		$json = SteamUtility::fetchURL($base);
 		if(!$json) {
 			return null;
 		}
