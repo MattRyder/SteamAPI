@@ -8,7 +8,7 @@ require_once 'SteamUtility.php';
 * @category   SteamAPI
 * @copyright  Copyright (c) 2012 Matt Ryder (www.mattryder.co.uk)
 * @license    GPLv2 License
-* @version    v1.2
+* @version    v1.3
 * @link       https://github.com/MattRyder/SteamAPI/blob/master/steam/SteamGame.php
 * @since      Class available since v1.0
 */
@@ -51,18 +51,18 @@ class SteamGame {
 			$newsData = new SimpleXMLElement(SteamUtility::fetchURL($base));
 
 			$i = 0;
-			$this->gameNews = array();
-			foreach ($newsData->newsitems->newsitem as $item) {
-				$this->gameNews[$i]->gid             = (string) $item->gid;
-				$this->gameNews[$i]->title           = (string) $item->title;
-				$this->gameNews[$i]->url             = (string) $item->url;
-				$this->gameNews[$i]->is_external_url = (string) $item->is_external_url;
-				$this->gameNews[$i]->author          = (string) $item->author;
-				$this->gameNews[$i]->contents        = (string) $item->contents;
-				$this->gameNews[$i]->feedlabel       = (string) $item->feedlabel;
-				$this->gameNews[$i]->date            = (string) $item->date;
-				$this->gameNews[$i]->feedname        = (string) $item->feedname;
-				$i++;
+      foreach ($newsData->newsitems->newsitem as $item) {
+        $this->gameNews = array(
+          'gid'             => (string) $item->gid,
+          'title'           => (string) $item->title,
+          'url'             => (string) $item->url,
+          'is_external_url' => (string)$item->is_external_url,
+          'author'          => (string)$item->author,
+          'contents'        => (string)$item->contents,
+          'feedlabel'       => (string)$item->feedlabel,
+          'date'            => (string)$item->date,
+          'feedname'        => (string)$item->feedname
+        );
 			}
 
 			return $this->gameNews;
