@@ -8,6 +8,8 @@ SteamAPI offers the ability to:
  * pull entire player profiles, including most played games, Steam Ratings, and groups subscribed to;
  * get achievements and statistics schema for specific games (Steam apikey and json PHP extension required);
  * track user achievements
+ * pull the latest App/Game Store List, and query the latest version of a game
+ * check for online and offline servers for a given IP Address
 
 Hopefully over time, more functionality can be added to this API, including pulling global game statistics, group interaction if there's time!
 
