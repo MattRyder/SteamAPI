@@ -10,7 +10,7 @@ require_once 'SteamUtility.php';
 * @category   SteamAPI
 * @copyright  Copyright (c) 2012 Matt Ryder (www.mattryder.co.uk)
 * @license    GPLv2 License
-* @version    v1.2
+* @version    v1.3
 * @link       https://github.com/MattRyder/SteamAPI/blob/master/steam/SteamUser.php
 * @since      Class available since v1.0
 */
@@ -118,6 +118,7 @@ class SteamUser {
 
 				$i = 0;
 				foreach ($parsedData->mostPlayedGames->mostPlayedGame as $mostPlayedGame) {
+					$this->mostPlayedGames[$i] = new stdClass();
 					$this->mostPlayedGames[$i]->gameName = (string)$mostPlayedGame->gameName;
 					$this->mostPlayedGames[$i]->gameLink = (string)$mostPlayedGame->gameLink;
 					$this->mostPlayedGames[$i]->gameIcon = (string)$mostPlayedGame->gameIcon;
@@ -148,6 +149,7 @@ class SteamUser {
 
 				$i = 0;
 				foreach ($parsedData->groups->group as $group) {
+					$this->groups[$i] = new stdClass();
 					$this->groups[$i]->groupID64 = (string)$group->groupID64;
 					$this->groups[$i]->groupName = (string)$group->groupName;
 					$this->groups[$i]->groupURL = (string)$group->groupURL;
@@ -232,12 +234,13 @@ class SteamUser {
 
 			$i = 0;
 			foreach ($gamesData->games->game as $game) {
+				$this->gamesList[$i] = new stdClass();
 				$this->gamesList[$i]->appID = (string)$game->appID;
 				$this->gamesList[$i]->name = (string)$game->name;
 				$this->gamesList[$i]->logo = (string)$game->logo;
 				$this->gamesList[$i]->storeLink = (string)$game->storeLink;
-				$this->gamesList[$i]->hoursLast2Weeks = (float)$game->hoursLast2Weeks;
-				$this->gamesList[$i]->hoursOnRecord = (float)$game->hoursOnRecord;
+				$this->gamesList[$i]->hoursLast2Weeks = (string)$game->hoursLast2Weeks;
+				$this->gamesList[$i]->hoursOnRecord = (string)$game->hoursOnRecord;
 				$this->gamesList[$i]->statsLink = (string)$game->statsLink;
 				$this->gamesList[$i]->globalStatsLink = (string)$game->globalStatsLink;
 				$i++;
