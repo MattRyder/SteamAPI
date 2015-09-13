@@ -15,6 +15,23 @@ class SteamUtility {
 	public static $connectTimeout = 2; // 2 seconds
 
 	/**
+	 * Performs a GET on the API and boxes the XML data.
+	 * @param string $url Target URL
+	 */
+	public static function fetchDataFromUrl($url) {
+		try {
+			$content = SteamUtility::fetchURL($url);
+			if ($content) {
+				return new SimpleXMLElement($content);
+			} else {
+				return null;
+			}
+		} catch (Exception $e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Fetches content of a given URL via HTTP GET method.
 	 * @param  string $url Target URL
 	 * @return string      Response content or FALSE on error
